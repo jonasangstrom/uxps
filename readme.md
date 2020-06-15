@@ -1,6 +1,6 @@
 # uxrd
 
-A xps with some usefull functions.
+A xps module with some usefull functions.
 
 ## Installation
 
@@ -16,6 +16,12 @@ pip install .
 
 ```python
 import uxps
+
+path = 'multiplex.txt'
+mplx_dict = read_multiplex(path) # read multiplex file
+
+path = 'survey.txt'
+survey_data = read_survey(path) # read multiplex file
 ```
 
 ## License
