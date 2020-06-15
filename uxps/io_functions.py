@@ -45,4 +45,5 @@ def list_to_array(a_list, sep='\t', dtype=float):
 def read_survey(path):
     with open(path, 'r') as a_file:
         data = list_to_array(a_file.readlines()[3:])
-    return data
+    survey_data = {letter: datum for datum, letter in zip(data.T, ['x', 'y'])}
+    return survey_data
