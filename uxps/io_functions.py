@@ -1,3 +1,5 @@
+import numpy as np
+
 
 def read_multiplex(path):
     with open(path, 'r') as mplxfile:
@@ -20,6 +22,9 @@ def read_multiplex(path):
             x, y = line.split()
             mplx_dict[current_orbital]['x'].append(float(x))
             mplx_dict[current_orbital]['y'].append(float(y))
+    for orbital in mplx_dict:
+        mplx_dict[orbital]['x'] = np.array(mplx_dict[orbital]['x'])
+        mplx_dict[orbital]['y'] = np.array(mplx_dict[orbital]['y'])
     return mplx_dict
 
 
@@ -33,4 +38,11 @@ def get_properties(line):
     return name, t_p_step, sweeps, energy
 
 
+def list_to_array(a_list, sep='\t', dtype=float):
+    return np.array([line.split(sep) for line in a_list], dtype=dtype)
 
+
+def read_survey(path):
+    with open(path, 'r') as a_file:
+        data = list_to_array(a_file.readlines()[3:])
+    return data

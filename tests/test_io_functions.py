@@ -1,5 +1,6 @@
-from uxps.io_functions import read_multiplex, get_properties
+from uxps.io_functions import read_multiplex, get_properties, read_survey
 from numpy.testing import assert_allclose
+
 
 def test_read_multiplex():
     path = 'multiplex.txt'
@@ -28,3 +29,8 @@ def test_get_properties():
     assert t_p_step == 100
     assert sweeps == 15
     assert_allclose(energy, 1486.6, rtol=0.00001)
+
+
+def test_read_survey():
+    path = 'survey.txt'
+    survey_data = read_survey(path)
