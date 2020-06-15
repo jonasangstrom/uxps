@@ -7,15 +7,15 @@ A xps with some usefull functions.
 clone using git and install
 
 ```bash
-git clone https://github.com/jonasangstrom/uxpf.git
-cd uxpf
+git clone https://github.com/jonasangstrom/uxps.git
+cd uxps
 pip install . 
 ```
 
 ## Usage
 
 ```python
-import uxpf
+import uxps
 ```
 
 ## License
