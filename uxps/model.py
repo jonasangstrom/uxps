@@ -1,6 +1,6 @@
 import numpy as np
 import lmfit as lm
-from plotting import plot_refinement
+from uxps.plotting import plot_refinement
 
 
 def pseudo_voigt(x, scale, sigma, mu, alpha):

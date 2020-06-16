@@ -1,1 +1,1 @@
-from uxps.quantitative_analysis import Model
+from uxps.model import Model
