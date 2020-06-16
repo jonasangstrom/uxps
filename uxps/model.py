@@ -1,9 +1,9 @@
 import numpy as np
 import lmfit as lm
+from plotting import plot_refinement
 
 
 def pseudo_voigt(x, scale, sigma, mu, alpha):
-    # TODO something strange about at least normal
     gaussian = np.exp(-(x-mu)**2/(2*sigma**2))/(sigma*np.sqrt(2*np.pi))
     lorentzian = (sigma/(np.pi*((x-mu)**2+sigma**2)))
     return scale * ((1-alpha) * gaussian + alpha * lorentzian)
@@ -14,6 +14,11 @@ def svsc(k, x_obs, peak):
     """
     dx = np.gradient(x_obs)
     return k*np.cumsum(dx*peak)
+
+
+def diff(pars, x_obs, y_obs, model):
+    y_calc, back, peaks = model(pars)
+    return y_calc - y_obs
 
 
 class Model:
@@ -61,14 +66,14 @@ class Model:
         return model, back, peaks
 
     def fit(self):
-        result = lm.minimize(diff2, self.pars, args=[self.x_obs, self.y_obs,
+        result = lm.minimize(diff, self.pars, args=[self.x_obs, self.y_obs,
                                                      self.evaluate])
         self.pars = result.params
 
     def plot_refinement(self, colors, title, folder, show_plots):
         y_calc, back, peaks = self.evaluate(self.pars)
         x = self.x_obs - self.pars['mu_shift']
-        residual = diff2(self.pars, x, self.y_obs, self.evaluate)
+        residual = diff(self.pars, x, self.y_obs, self.evaluate)
         plot_refinement(x, self.y_obs, y_calc, back, peaks, colors,
                         self.peaknames, x.min(), x.max(), title, residual,
                         folder, show_plots)
