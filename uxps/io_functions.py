@@ -31,7 +31,11 @@ def read_multiplex(path):
 def get_properties(line):
     r_n, _, _, r_t, r_s, _, r_e, _, _ = [value.split() for value in
                                          line.split(';')]
-    name = '{} {}'.format(r_n[-2], r_n[-1])
+    name = ''
+    for name_part in r_n[1:]:
+        name += (name_part+' ')
+    name = name[:-1]
+
     t_p_step = int(r_t[-1])
     sweeps = int(r_s[-1])
     energy = float(r_e[-1])
@@ -43,6 +47,7 @@ def list_to_array(a_list, sep='\t', dtype=float):
 
 
 def read_survey(path):
+    # TODO add get properties
     with open(path, 'r') as a_file:
         data = list_to_array(a_file.readlines()[3:])
     survey_data = {letter: datum for datum, letter in zip(data.T, ['x', 'y'])}

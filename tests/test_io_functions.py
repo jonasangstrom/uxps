@@ -31,6 +31,26 @@ def test_get_properties():
     assert_allclose(energy, 1486.6, rtol=0.00001)
 
 
+def test_get_properties_no_name():
+    line = """Element ; Region 1 of 10; Depth Cycle 1 of 1; Time Per Step
+    100; Sweeps 15; Anode Al; Photon Energy 1486.6; XPS;"""
+    name, t_p_step, sweeps, energy = get_properties(line)
+    assert name == ''
+    assert t_p_step == 100
+    assert sweeps == 15
+    assert_allclose(energy, 1486.6, rtol=0.00001)
+
+
+def test_get_properties_one_name():
+    line = """Element asdf; Region 1 of 10; Depth Cycle 1 of 1; Time Per Step
+    100; Sweeps 15; Anode Al; Photon Energy 1486.6; XPS;"""
+    name, t_p_step, sweeps, energy = get_properties(line)
+    assert name == 'asdf'
+    assert t_p_step == 100
+    assert sweeps == 15
+    assert_allclose(energy, 1486.6, rtol=0.00001)
+
+
 def test_read_survey():
     path = 'survey.txt'
     survey_data = read_survey(path)
