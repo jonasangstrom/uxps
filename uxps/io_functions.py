@@ -50,6 +50,13 @@ def list_to_array(a_list, sep='\t', dtype=float):
 def read_survey(path):
     # TODO add get properties, survey should be same type of object as detail
     with open(path, 'r') as a_file:
-        data = list_to_array(a_file.readlines()[3:])
-    survey_data = {letter: datum for datum, letter in zip(data.T, ['x', 'y'])}
-    return survey_data
+        content = a_file.readlines()
+        name, t_p_step, sweeps, energy = get_properties(content[0])
+        data = list_to_array(content[3:])
+    survey_dict = {}
+    survey_dict['t/step'] = t_p_step
+    survey_dict['sweeps'] = sweeps
+    survey_dict['energy'] = energy
+    survey_dict['x'] = data[:, 0]
+    survey_dict['y'] = data[:, 1]
+    return survey_dict

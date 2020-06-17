@@ -53,6 +53,9 @@ def test_get_properties_one_name():
 
 def test_read_survey():
     path = 'survey.txt'
-    survey_data = read_survey(path)
-    assert_allclose(survey_data['x'][0], 1400, rtol=0.00001)
-    assert_allclose(survey_data['y'][0], 3252, rtol=0.00001)
+    survey_dict = read_survey(path)
+    assert_allclose(survey_dict['x'][0], 1400, rtol=0.00001)
+    assert_allclose(survey_dict['y'][0], 3252, rtol=0.00001)
+    assert survey_dict['t/step'] == 100
+    assert survey_dict['sweeps'] == 1
+    assert_allclose(survey_dict['energy'], 1486.6, rtol=0.00001)
