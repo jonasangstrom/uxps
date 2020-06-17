@@ -24,8 +24,7 @@ def plot_refinement(x_obs, y_obs, y_calc, back, peaks, colors, labels, lower,
 def plot_detail(detail, name, scale=1, offset=0):
     x_raw, y = detail['x'], detail['y']
     x = x_raw - offset
-    plt.scatter(x, y/scale)
+    plt.scatter(x, y/scale, label=name)
     plt.xlim(x.max(), x.min())
     plt.xlabel('E/eV')
     plt.title(name)
-    plt.tight_layout()

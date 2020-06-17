@@ -1,5 +1,6 @@
 import numpy as np
 
+# TODO create function to generate detail from survey
 
 def read_multiplex(path):
     with open(path, 'r') as mplxfile:
@@ -47,7 +48,7 @@ def list_to_array(a_list, sep='\t', dtype=float):
 
 
 def read_survey(path):
-    # TODO add get properties
+    # TODO add get properties, survey should be same type of object as detail
     with open(path, 'r') as a_file:
         data = list_to_array(a_file.readlines()[3:])
     survey_data = {letter: datum for datum, letter in zip(data.T, ['x', 'y'])}
