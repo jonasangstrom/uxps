@@ -15,6 +15,7 @@ def plot_scaled_multiplex(mplx_dict, model_dict, offset_name=''):
         t = detail['t/step'] * detail['sweeps']
         plot_detail(detail, name, scale=t,)
     plt.legend()
+    plt.title('scaled multiplex+survey')
     plt.xlim(1000, 0)
 
 
