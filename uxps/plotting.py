@@ -14,8 +14,19 @@ def plot_refinement(x_obs, y_obs, y_calc, back, peaks, colors, labels, lower,
     plt.xlim(upper, lower)
     plt.xlabel('E/eV')
     plt.legend()
-    plt.savefig(folder+'\\'+title.split(',')[0]+'.png', dpi=500)
     if show_plots:
         plt.show()
     else:
+        plt.savefig(folder+'\\'+title.split(',')[0]+'.png', dpi=500)
         plt.close('all')
+
+
+def plot_detail(detail, name, offset=0):
+    x_raw, y = detail['x'], detail['y']
+    x = x_raw - offset
+    plt.scatter(x, y)
+    plt.xlim(x.max(), x.min())
+    plt.xlabel('E/eV')
+    plt.title(name)
+    plt.tight_layout()
+    plt.show()

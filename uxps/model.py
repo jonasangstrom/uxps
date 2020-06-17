@@ -16,13 +16,18 @@ def svsc(k, x_obs, peak):
     return k*np.cumsum(dx*peak)
 
 
+def get_data_in_range(x, y, lower, upper):
+    in_range = (x >= lower) * (x <= upper)
+    return x[in_range], y[in_range]
+
+
 def diff(pars, x_obs, y_obs, model):
     y_calc, back, peaks = model(pars)
     return y_calc - y_obs
 
 
 class Model:
-    def __init__(self, peaknames, mus, vary_mus, mu_shift, vary_mu_shift,
+    def __init__(self, peaknames, mus, vary_mus, x_shift, vary_x_shift,
                  sigmas, scales, ks, alpha, a0, a1, x_obs, y_obs):
         self.pars = lm.Parameters()
         for n, [mu, vary_mu, sigma, scale, k] in enumerate(zip(mus, vary_mus,
@@ -39,11 +44,12 @@ class Model:
         self.pars.add('a0', a0)
         self.pars.add('a1', 0)
         self.pars['a1'].vary = False
-        self.pars.add('mu_shift', mu_shift)
-        self.pars['mu_shift'].vary = vary_mu_shift
+        self.pars.add('x_shift', x_shift)
+        self.pars['x_shift'].vary = vary_x_shift
         self.pars.add('alpha', alpha)
         self.pars['alpha'].min = 0.3
         self.pars['alpha'].max = 0.5
+        self.pars['a0'].min = 0
         self.x_obs = x_obs
         self.y_obs = y_obs
         self.peaknames = peaknames
@@ -54,7 +60,7 @@ class Model:
         for n, peakname in enumerate(self.peaknames):
             scale = pars['scale{}'.format(n)]
             sigma = pars['sigma{}'.format(n)]
-            mu = pars['mu{}'.format(n)] + pars['mu_shift']
+            mu = pars['mu{}'.format(n)] + pars['x_shift']
             k = pars['k{}'.format(n)]
             alpha = pars['alpha']
             peaks.append(pseudo_voigt(self.x_obs, scale, sigma, mu, alpha))
@@ -72,7 +78,7 @@ class Model:
 
     def plot_refinement(self, colors, title, folder, show_plots):
         y_calc, back, peaks = self.evaluate(self.pars)
-        x = self.x_obs - self.pars['mu_shift']
+        x = self.x_obs - self.pars['x_shift']
         residual = diff(self.pars, x, self.y_obs, self.evaluate)
         plot_refinement(x, self.y_obs, y_calc, back, peaks, colors,
                         self.peaknames, x.min(), x.max(), title, residual,
