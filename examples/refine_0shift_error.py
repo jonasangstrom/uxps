@@ -8,6 +8,8 @@ mplx_dict = read_multiplex(path)
 name = 'C 1s'
 c1s = mplx_dict['C 1s']
 plot_detail(c1s, name)
+plt.show()
+
 peaknames = ['C-C 1s', 'O-C=O ?']
 mus = [286, 288.5]
 vary_mus = [False, True]
