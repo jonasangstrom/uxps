@@ -5,7 +5,7 @@ from uxps.model import pseudo_voigt, svsc, Model, get_data_in_range
 
 
 def test_peak_area():
-    """test that peak area is always scale (and works)
+    """ test that peak area is always scale (and works)
     """
     x = np.arange(0, 100, step=0.01)
     n_tests = 100
