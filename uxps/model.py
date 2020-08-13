@@ -120,7 +120,6 @@ def create_n_refine_multiple(models_pars_list, mplx_dict, x_shift=3, sigma=1.5,
         models_dict[name] = Model(peaknames, mus, vary_mus, x_shift,
                                   vary_x_shift, sigmas, scales, ks, alpha, a0,
                                   a1, x, y)
-        print(models_dict)
 
         models_dict[name].fit()
 
