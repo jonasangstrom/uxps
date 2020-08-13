@@ -21,3 +21,4 @@ def plot_scaled_multiplex(mplx_dict, model_dict, offset_name=''):
 
 plot_scaled_multiplex(mplx_dict, model_dict)
 plt.show()
+print(mplx_dict)

@@ -1,7 +1,8 @@
 import numpy as np
 from numpy.testing import assert_allclose
 from uxps.io_functions import read_multiplex
-from uxps.model import pseudo_voigt, svsc, Model, get_data_in_range
+from uxps.model import (pseudo_voigt, svsc, Model, get_data_in_range,
+                        create_n_refine_multiple)
 
 
 def test_peak_area():
@@ -66,6 +67,18 @@ def test_model_refine():
                   scales, ks, alpha, a0, a1, x, y)
 
     model.fit()
+
+    assert_allclose(model.pars['mu0'], 286, 0.00001)
+    assert_allclose(model.pars['x_shift'], 3, 0.5)
+    assert_allclose(model.pars['mu1'], 288.5, 0.1)
+
+
+def test_create_n_refine_multiple_single():
+    path = 'multiplex.txt'
+    mplx_dict = read_multiplex(path)
+    models_pars_list = [['C 1s', ['C-C 1s', 'O-C=O ?'], [286, 288.5], 275, 298]]
+    models_dict = create_n_refine_multiple(models_pars_list, mplx_dict)
+    model = models_dict['C 1s']
 
     assert_allclose(model.pars['mu0'], 286, 0.00001)
     assert_allclose(model.pars['x_shift'], 3, 0.5)

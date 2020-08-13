@@ -1,6 +1,7 @@
 import numpy as np
 import lmfit as lm
 from uxps.plotting import plot_refinement
+from tqdm import tqdm
 
 
 def pseudo_voigt(x, scale, sigma, mu, alpha):
@@ -90,3 +91,41 @@ class Model:
                                                               peaks)}
         peak_to_inte = peak_dict[peakname_to_inte]
         return np.sum(peak_to_inte)
+
+
+def create_n_refine_multiple(models_pars_list, mplx_dict, x_shift=3, sigma=1.5,
+                             scale=10000, k=0.0001, alpha=0.5, a0=1000,
+                             a1=0):
+    """ Creates and refines multiple models, parameters are given as
+    model_pars_list. Refines and then returns the refined models as a
+    dictionary. Assumes that the first peak in the first model is used
+    for zeros shift correction. The names in the multiplex and list must
+    match.
+    """
+    models_dict = {}
+    first = True
+    for name, peaknames, mus, x_min, x_max in tqdm(models_pars_list):
+        vary_mus = [True for mu in mus]
+        sigmas = [sigma for mu in mus]
+        scales = [scale, scale]
+        ks = [k, k]
+
+        if first:
+            vary_x_shift = True
+            vary_mus[0] = False
+
+        x, y = get_data_in_range(mplx_dict[name]['x'], mplx_dict[name]['y'],
+                                 x_min, x_max)
+
+        models_dict[name] = Model(peaknames, mus, vary_mus, x_shift,
+                                  vary_x_shift, sigmas, scales, ks, alpha, a0,
+                                  a1, x, y)
+        print(models_dict)
+
+        models_dict[name].fit()
+
+        if first:
+            x_shift = models_dict[name].pars['x_shift']
+            first = False
+
+    return models_dict
