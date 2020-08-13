@@ -74,7 +74,7 @@ class Model:
 
     def fit(self):
         result = lm.minimize(diff, self.pars, args=[self.x_obs, self.y_obs,
-                                                     self.evaluate])
+                                                    self.evaluate])
         self.pars = result.params
 
     def plot_refinement(self, colors, title, folder, show_plots):
