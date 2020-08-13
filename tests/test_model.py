@@ -46,6 +46,14 @@ def test_get_data_in_range():
     assert_allclose(y, np.array([1, 2, 4]), 0.001)
 
 
+def test_get_data_in_range_offset():
+    x = np.array([5, 10, 1, 100, 2, 101])
+    y = np.array([1, 2, 3, 4, 5, 6])
+    x, y = get_data_in_range(x, y, lower=5, upper=100)
+    assert_allclose(x, np.array([5, 10, 100]), 0.001)
+    assert_allclose(y, np.array([1, 2, 4]), 0.001)
+
+
 def test_model_refine():
     path = 'multiplex.txt'
     mplx_dict = read_multiplex(path)
@@ -77,9 +85,24 @@ def test_create_n_refine_multiple_single():
     path = 'multiplex.txt'
     mplx_dict = read_multiplex(path)
     models_pars_list = [['C 1s', ['C-C 1s', 'O-C=O ?'], [286, 288.5], 275, 298]]
-    models_dict = create_n_refine_multiple(models_pars_list, mplx_dict)
+    models_dict = create_n_refine_multiple(models_pars_list, mplx_dict,
+                                           x_shift=3)
     model = models_dict['C 1s']
 
     assert_allclose(model.pars['mu0'], 286, 0.00001)
     assert_allclose(model.pars['x_shift'], 3, 0.5)
     assert_allclose(model.pars['mu1'], 288.5, 0.1)
+
+
+def test_create_n_refine_multiple():
+    path = 'multiplex.txt'
+    mplx_dict = read_multiplex(path)
+    models_pars_list = [['C 1s', ['C-C 1s', 'O-C=O ?'], [286, 288.5], 275, 298],
+                        ['Al 2p', ['Al2p'], [74.6], 68, 82]]
+
+    models_dict = create_n_refine_multiple(models_pars_list, mplx_dict,
+                                           x_shift=3)
+    model = models_dict['Al 2p']
+
+    assert_allclose(model.pars['mu0'], 74.6, 1)
+    assert_allclose(model.pars['x_shift'], 3, 0.5)

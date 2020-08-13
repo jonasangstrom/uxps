@@ -93,7 +93,7 @@ class Model:
         return np.sum(peak_to_inte)
 
 
-def create_n_refine_multiple(models_pars_list, mplx_dict, x_shift=3, sigma=1.5,
+def create_n_refine_multiple(models_pars_list, mplx_dict, x_shift=0, sigma=1.5,
                              scale=10000, k=0.0001, alpha=0.5, a0=1000,
                              a1=0):
     """ Creates and refines multiple models, parameters are given as
@@ -113,9 +113,11 @@ def create_n_refine_multiple(models_pars_list, mplx_dict, x_shift=3, sigma=1.5,
         if first:
             vary_x_shift = True
             vary_mus[0] = False
+        else:
+            vary_x_shift = False
 
         x, y = get_data_in_range(mplx_dict[name]['x'], mplx_dict[name]['y'],
-                                 x_min, x_max)
+                                 x_min+x_shift, x_max+x_shift)
 
         models_dict[name] = Model(peaknames, mus, vary_mus, x_shift,
                                   vary_x_shift, sigmas, scales, ks, alpha, a0,
