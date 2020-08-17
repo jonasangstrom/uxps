@@ -1,4 +1,5 @@
 import numpy as np
+from uxps.model import get_data_in_range
 
 # TODO create function to generate detail from survey
 
@@ -47,8 +48,26 @@ def list_to_array(a_list, sep='\t', dtype=float):
     return np.array([line.split(sep) for line in a_list], dtype=dtype)
 
 
+def append_to_multiplex(survey_dict, mplx_dict, detail_name, start, end):
+    """ Appends detail from survey dictionary file to multiplex dictionary
+    """
+
+    detail_dict = {}
+
+    # copy details
+    detail_dict['t/step'] = survey_dict['t/step']
+    detail_dict['sweeps'] = survey_dict['sweeps']
+
+    # copy x y data
+    detail_dict['x'], detail_dict['y'] = get_data_in_range(survey_dict['x'],
+                                                           survey_dict['y'],
+                                                           start, end)
+    mplx_dict[detail_name] = detail_dict
+
+    return mplx_dict
+
+
 def read_survey(path):
-    # TODO add get properties, survey should be same type of object as detail
     with open(path, 'r') as a_file:
         content = a_file.readlines()
         name, t_p_step, sweeps, energy = get_properties(content[0])
