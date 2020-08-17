@@ -29,7 +29,8 @@ def diff(pars, x_obs, y_obs, model):
 
 class Model:
     def __init__(self, peaknames, mus, vary_mus, x_shift, vary_x_shift,
-                 sigmas, scales, ks, alpha, a0, a1, x_obs, y_obs):
+                 sigmas, scales, ks, alpha, a0, a1, x_obs, y_obs, sweeps=1,
+                 t_p_step=1):
         self.pars = lm.Parameters()
         for n, [mu, vary_mu, sigma, scale, k] in enumerate(zip(mus, vary_mus,
                                                                sigmas, scales,
@@ -54,6 +55,8 @@ class Model:
         self.x_obs = x_obs
         self.y_obs = y_obs
         self.peaknames = peaknames
+        self.sweeps = sweeps
+        self.t_p_step = t_p_step
 
     def evaluate(self, pars):
         peaks = []
@@ -121,7 +124,8 @@ def create_n_refine_multiple(models_pars_list, mplx_dict, x_shift=0, sigma=1.5,
 
         models_dict[name] = Model(peaknames, mus, vary_mus, x_shift,
                                   vary_x_shift, sigmas, scales, ks, alpha, a0,
-                                  a1, x, y)
+                                  a1, x, y, mplx_dict[name]['sweeps'],
+                                  mplx_dict[name]['t/step'])
 
         models_dict[name].fit()
 
