@@ -103,7 +103,7 @@ def create_n_refine_multiple(models_pars_list, mplx_dict, x_shift=0, sigma=1.5,
     model_pars_list. Refines and then returns the refined models as a
     dictionary. Assumes that the first peak in the first model is used
     for zeros shift correction. The names in the multiplex and list must
-    match.
+    match. TODO: If area unavaliable get from survey automatically.
     """
     models_dict = {}
     first = True

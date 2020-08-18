@@ -38,12 +38,6 @@ def peak_to_c(models, peaks, x_section):
     return n_to_c(n_dict)
 
 
-def save_as_h5(c_dict, name, key):
-    c_data_frame = pd.DataFrame.from_dict({element: [c_dict[element]] for
-                                           element in c_dict})
-    c_data_frame.to_hdf(name, key)
-
-
 def plot_compositions(df, color_dict):
     ''' Takes a pandas dataframe df with element on columns and sample
     names as rownames

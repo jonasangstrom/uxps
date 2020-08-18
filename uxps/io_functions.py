@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from uxps.model import get_data_in_range
 
 # TODO create function to generate detail from survey
@@ -79,3 +80,9 @@ def read_survey(path):
     survey_dict['x'] = data[:, 0]
     survey_dict['y'] = data[:, 1]
     return survey_dict
+
+
+def save_as_h5(c_dict, name, key):
+    c_data_frame = pd.DataFrame.from_dict({element: [c_dict[element]] for
+                                           element in c_dict})
+    c_data_frame.to_hdf(name, key)
