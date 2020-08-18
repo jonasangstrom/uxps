@@ -1,6 +1,7 @@
 import numpy as np
 import lmfit as lm
 from uxps.plotting import plot_refinement
+from uxps.functions import get_data_in_range
 from tqdm import tqdm
 
 
@@ -15,11 +16,6 @@ def svsc(k, x_obs, peak):
     """
     dx = np.gradient(x_obs)
     return k*np.cumsum(dx*peak)
-
-
-def get_data_in_range(x, y, lower, upper):
-    in_range = (x >= lower) * (x <= upper)
-    return x[in_range], y[in_range]
 
 
 def diff(pars, x_obs, y_obs, model):

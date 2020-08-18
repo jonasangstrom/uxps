@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from uxps.functions import check_or_create_folder
 
 
 def plot_refinement(x_obs, y_obs, y_calc, back, peaks, colors, labels, lower,
@@ -17,6 +18,7 @@ def plot_refinement(x_obs, y_obs, y_calc, back, peaks, colors, labels, lower,
     if show_plots:
         plt.show()
     else:
+        check_or_create_folder(folder)
         plt.savefig(folder+'\\'+title.split(',')[0]+'.png', dpi=500)
         plt.close('all')
 

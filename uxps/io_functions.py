@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import os
-from uxps.model import get_data_in_range
+from uxps.functions import get_data_in_range
 
 # TODO create function to generate detail from survey
 
@@ -33,9 +33,6 @@ def read_multiplex(path):
     return mplx_dict
 
 
-def check_or_create_folder(path_to_folder):
-    if not os.path.isdir(path_to_folder):
-        os.mkdir(path_to_folder)
 
 
 def get_properties(line):

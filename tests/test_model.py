@@ -1,8 +1,10 @@
 import numpy as np
 from numpy.testing import assert_allclose
 from uxps.io_functions import read_multiplex
-from uxps.model import (pseudo_voigt, svsc, Model, get_data_in_range,
+from uxps.model import (pseudo_voigt, svsc, Model,
                         create_n_refine_multiple)
+from uxps.functions import get_data_in_range
+
 
 
 def test_peak_area():
