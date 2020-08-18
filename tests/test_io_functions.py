@@ -1,5 +1,4 @@
-from uxps.io_functions import (read_multiplex, get_properties, read_survey,
-                               append_to_multiplex)
+from uxps.io_functions import read_multiplex, get_properties, read_survey
 from uxps.functions import check_or_create_folder
 from numpy.testing import assert_allclose
 import os
@@ -62,25 +61,6 @@ def test_read_survey():
     assert survey_dict['t/step'] == 100
     assert survey_dict['sweeps'] == 1
     assert_allclose(survey_dict['energy'], 1486.6, rtol=0.00001)
-
-
-def test_append_detail_to_multiplex():
-    path = 'survey.txt'
-    survey_dict = read_survey(path)
-    path = 'multiplex.txt'
-    mplx_dict = read_multiplex(path)
-    start = 1276.4
-    end = 1349.2
-    detail_name = 'asdf'
-    mplx_dict = append_to_multiplex(survey_dict, mplx_dict, detail_name, start,
-                                    end)
-    detail_dict = mplx_dict[detail_name]
-    assert detail_dict['t/step'] == 100
-    assert detail_dict['sweeps'] == 1
-    assert_allclose(detail_dict['x'][0], 1349.2, rtol=0.00001)
-    assert_allclose(detail_dict['x'][-1], 1276.4, rtol=0.00001)
-    assert_allclose(detail_dict['y'][0], 2638, rtol=0.00001)
-    assert_allclose(detail_dict['y'][-1], 2646, rtol=0.00001)
 
 
 def test_create_folder():

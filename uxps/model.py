@@ -94,12 +94,12 @@ class Model:
 
 def create_n_refine_multiple(models_pars_list, mplx_dict, x_shift=0, sigma=1.5,
                              scale=10000, k=0.0001, alpha=0.5, a0=1000,
-                             a1=0):
+                             a1=0, use_survey=False):
     """ Creates and refines multiple models, parameters are given as
     model_pars_list. Refines and then returns the refined models as a
     dictionary. Assumes that the first peak in the first model is used
     for zeros shift correction. The names in the multiplex and list must
-    match. TODO: If area unavaliable get from survey automatically.
+    match. TODO: Change to either use either multiplex or survey.
     """
     models_dict = {}
     first = True
@@ -115,8 +115,14 @@ def create_n_refine_multiple(models_pars_list, mplx_dict, x_shift=0, sigma=1.5,
         else:
             vary_x_shift = False
 
-        x, y = get_data_in_range(mplx_dict[name]['x'], mplx_dict[name]['y'],
-                                 x_min+x_shift, x_max+x_shift)
+        if use_survey:
+            x = mplx_dict['x']
+            y = mplx_dict['y']
+        else:
+            x = mplx_dict[name]['x']
+            y = mplx_dict[name]['y']
+
+        x, y = get_data_in_range(x, y, x_min+x_shift, x_max+x_shift)
 
         models_dict[name] = Model(peaknames, mus, vary_mus, x_shift,
                                   vary_x_shift, sigmas, scales, ks, alpha, a0,

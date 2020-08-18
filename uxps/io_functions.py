@@ -33,8 +33,6 @@ def read_multiplex(path):
     return mplx_dict
 
 
-
-
 def get_properties(line):
     r_n, _, _, r_t, r_s, _, r_e, _, _ = [value.split() for value in
                                          line.split(';')]
@@ -51,25 +49,6 @@ def get_properties(line):
 
 def list_to_array(a_list, sep='\t', dtype=float):
     return np.array([line.split(sep) for line in a_list], dtype=dtype)
-
-
-def append_to_multiplex(survey_dict, mplx_dict, detail_name, start, end):
-    """ Appends detail from survey dictionary file to multiplex dictionary
-    """
-
-    detail_dict = {}
-
-    # copy details
-    detail_dict['t/step'] = survey_dict['t/step']
-    detail_dict['sweeps'] = survey_dict['sweeps']
-
-    # copy x y data
-    detail_dict['x'], detail_dict['y'] = get_data_in_range(survey_dict['x'],
-                                                           survey_dict['y'],
-                                                           start, end)
-    mplx_dict[detail_name] = detail_dict
-
-    return mplx_dict
 
 
 def read_survey(path):
