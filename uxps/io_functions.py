@@ -1,8 +1,10 @@
 import numpy as np
 import pandas as pd
+import os
 from uxps.model import get_data_in_range
 
 # TODO create function to generate detail from survey
+
 
 def read_multiplex(path):
     with open(path, 'r') as mplxfile:
@@ -29,6 +31,11 @@ def read_multiplex(path):
         mplx_dict[orbital]['x'] = np.array(mplx_dict[orbital]['x'])
         mplx_dict[orbital]['y'] = np.array(mplx_dict[orbital]['y'])
     return mplx_dict
+
+
+def check_or_create_folder(path_to_folder):
+    if not os.path.isdir(path_to_folder):
+        os.mkdir(path_to_folder)
 
 
 def get_properties(line):

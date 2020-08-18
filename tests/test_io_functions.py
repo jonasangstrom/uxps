@@ -1,6 +1,7 @@
 from uxps.io_functions import (read_multiplex, get_properties, read_survey,
-                               append_to_multiplex)
+                               append_to_multiplex, check_or_create_folder)
 from numpy.testing import assert_allclose
+import os
 
 
 def test_read_multiplex():
@@ -79,3 +80,14 @@ def test_append_detail_to_multiplex():
     assert_allclose(detail_dict['x'][-1], 1276.4, rtol=0.00001)
     assert_allclose(detail_dict['y'][0], 2638, rtol=0.00001)
     assert_allclose(detail_dict['y'][-1], 2646, rtol=0.00001)
+
+
+def test_create_folder():
+    path_to_folder = 'existing_folder/'
+    check_or_create_folder(path_to_folder)
+    assert os.path.isdir(path_to_folder)
+    path_to_folder = 'nonexisting_folder/'
+    check_or_create_folder(path_to_folder)
+    assert os.path.isdir(path_to_folder)
+    os.rmdir(path_to_folder)
+    assert not os.path.isdir(path_to_folder)
